@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  database:
+    image: mariadb
+    ports:
+      - 3306:3306
+    networks:
+      - database-network
+    environment:
+      MARIADB_ALLOW_EMPTY_PASSWORD: 0
+      MARIADB_USER: budgeter_v2_user
+      MARIADB_PASSWORD: Df83F3edbz4bS69mLP3T
+      MARIADB_ROOT_PASSWORD: abHxk8e9R5VNe4PT4Pwhd2E6w2N65A
+      MARIADB_DATABASE: budgeter_v2_database
+    volumes:
+      - ./data/db/:/var/lib/mysql
+    healthcheck:
+      test: 'mariadb --user=root --password=abHxk8e9R5VNe4PT4Pwhd2E6w2N65A --execute "SHOW DATABASES;"'
+      interval: 2s
+      timeout: 20s
+      retries: 2147483647
+
+  server:
+    build:
+      context: ./server/
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - database-network
+      - web-network
+    environment:
+      - PORT=3000
+      - DATABASE_URL=mysql://budgeter_v2_user:Df83F3edbz4bS69mLP3T@database:3306/budgeter_v2_database
+
+  client:
+    build:
+      context: ./client/
+    volumes:
+      - app-volume:/home/budgeter-client/dist/
+
+  nginx:
+    build:
+      context: ./.nginx/
+    depends_on:
+      - server
+    ports:
+      - 4080:4080
+    networks:
+      - web-network
+    volumes:
+      - app-volume:/var/www/budgeter_v2_app/
+
+networks:
+  database-network:
+    driver: bridge
+  web-network:
+    driver: bridge
+
+volumes:
+  app-volume:
