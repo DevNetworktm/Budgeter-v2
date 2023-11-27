@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id         String       @id @unique @default(uuid())
+  Account    Accounts[]
+  Categories Categories[]
+  email      String       @unique
+  username   String       @unique
+  password   String
+  update_at  DateTime     @default(now())
+  create_at  DateTime     @default(now())
+}
+
+model Accounts {
+  id         String       @id @unique @default(uuid())
+  user       Users        @relation(references: [id], fields: [user_id])
+  CashFlow   CashFlow[]
+  Categories Categories[]
+  user_id    String
+}
+
+model Categories {
+  id       String       @id @unique @default(uuid())
+  User     Users        @relation(references: [id], fields: [user_id])
+  type     CashFlowType
+  Accounts Accounts[]
+  CashFlow CashFlow[]
+  label    String
+  color    String
+  user_id  String
+}
+
+model CashFlow {
+  id           String       @id @unique @default(uuid())
+  Categorie    Categories   @relation(references: [id], fields: [id])
+  Accounts     Accounts     @relation(references: [id], fields: [accounts_id])
+  type         CashFlowType
+  label        String
+  amount       BigInt
+  date         DateTime     @default(now())
+  categorie_id String
+  accounts_id  String
+}
+
+enum CashFlowType {
+  CASH_IN
+  CASH_OUT
+}

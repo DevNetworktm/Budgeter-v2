@@ -1,0 +1,13 @@
+services:
+  database-dev:
+    image: mariadb
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ALLOW_EMPTY_PASSWORD: 0
+      MARIADB_USER: budgeter_v2_user
+      MARIADB_PASSWORD: Df83F3edbz4bS69mLP3T
+      MARIADB_ROOT_PASSWORD: abHxk8e9R5VNe4PT4Pwhd2E6w2N65A
+      MARIADB_DATABASE: budgeter_v2_database
+    volumes:
+      - ./data/db/:/var/lib/mysql
