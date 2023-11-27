@@ -10,18 +10,14 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get("/api/", async (req: Request, res: Response) => {
-  const users = await prisma.user.findMany();
-  res.send({ users });
-});
-
-app.get("/api/:email", async (req: Request, res: Response) => {
-  const user = await prisma.user.create({
-    data: {
-      email: req.params.email,
+app.get("/api/users/", async (req: Request, res: Response) => {
+  const users = await prisma.users.findMany({
+    include: {
+      Account: true,
+      Categories: true,
     },
   });
-  res.send({ id: user.id });
+  res.send({ users });
 });
 
 app.listen(port, () => {
