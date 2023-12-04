@@ -1,0 +1,163 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Budgeter v2",
+    "dateExported": "2023-12-03T18:13:46.067Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "56e9e1e8-f750-4c2c-93f9-010c5792336a",
+            "name": "/",
+            "containerId": "",
+            "created": "2023-12-03T17:04:53.744Z",
+            "sortNum": 5000
+        },
+        {
+            "_id": "c04c5008-5dcb-4c58-a914-63f63dd5abeb",
+            "name": "/auth",
+            "containerId": "",
+            "created": "2023-12-01T04:19:51.991Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "0e0840ff-9d2c-476d-aa1e-5da9e7191b13",
+            "name": "/users",
+            "containerId": "",
+            "created": "2023-12-01T04:26:01.077Z",
+            "sortNum": 20000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "d35caa08-7ed2-4f51-a316-03e64cd1e936",
+            "colId": "cbf31b9c-aa50-4beb-931c-c6f59fecc18d",
+            "containerId": "c04c5008-5dcb-4c58-a914-63f63dd5abeb",
+            "name": "/login",
+            "url": "{{base_url}}/auth/login",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-11-30T05:56:48.667Z",
+            "modified": "2023-12-02T15:48:57.521Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"admin\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "cookie.token",
+                    "action": "setto",
+                    "value": "{{token}}"
+                }
+            ],
+            "postReq": {
+                "inlineScripts": [
+                    {
+                        "script": [
+                            "tc.setVar()"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "3ec8c4a2-8308-4884-ae08-36418f4b3db0",
+            "colId": "cbf31b9c-aa50-4beb-931c-c6f59fecc18d",
+            "containerId": "0e0840ff-9d2c-476d-aa1e-5da9e7191b13",
+            "name": "/me",
+            "url": "{{base_url}}/users/me",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-12-01T04:26:14.526Z",
+            "modified": "2023-12-03T13:54:35.027Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "token={{token}}"
+                }
+            ],
+            "params": [],
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "d35caa08-7ed2-4f51-a316-03e64cd1e936",
+                        "colId": "cbf31b9c-aa50-4beb-931c-c6f59fecc18d",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "ab01670f-925f-46a0-9678-43876adea502",
+            "colId": "cbf31b9c-aa50-4beb-931c-c6f59fecc18d",
+            "containerId": "0e0840ff-9d2c-476d-aa1e-5da9e7191b13",
+            "name": "/me => all",
+            "url": "{{base_url}}/users/me?all=true",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-12-03T13:53:33.746Z",
+            "modified": "2023-12-03T13:53:33.746Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "token={{token}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "all",
+                    "value": "true",
+                    "isPath": false
+                }
+            ],
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "d35caa08-7ed2-4f51-a316-03e64cd1e936",
+                        "colId": "cbf31b9c-aa50-4beb-931c-c6f59fecc18d",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "4653d414-873d-4392-b641-86ba9ce2bb1d",
+            "colId": "cbf31b9c-aa50-4beb-931c-c6f59fecc18d",
+            "containerId": "56e9e1e8-f750-4c2c-93f9-010c5792336a",
+            "name": "/setup",
+            "url": "{{base_url}}/setup",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-12-03T17:05:08.759Z",
+            "modified": "2023-12-03T17:05:24.453Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "0720a0f0-9bb4-4aec-9323-381e47c7d69f",
+            "colId": "cbf31b9c-aa50-4beb-931c-c6f59fecc18d",
+            "containerId": "56e9e1e8-f750-4c2c-93f9-010c5792336a",
+            "name": "/setup",
+            "url": "{{base_url}}/setup",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-12-03T17:10:20.248Z",
+            "modified": "2023-12-03T17:36:33.703Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"currency\": \"€\",\n  \"language\": \"fr-FR\",\n  \"dark_mode\": true,\n  \"user\": {\n    \"email\": \"admin@gmail.com\",\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n  }\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

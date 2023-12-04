@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   database:
@@ -21,10 +21,21 @@ services:
       timeout: 20s
       retries: 2147483647
 
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - database-network
+    volumes:
+      - redis-volume:/data
+
   server:
     build:
       context: ./server/
     depends_on:
+      redis:
+        condition: service_started
       database:
         condition: service_healthy
     networks:
@@ -33,6 +44,8 @@ services:
     environment:
       - PORT=3000
       - DATABASE_URL=mysql://budgeter_v2_user:Df83F3edbz4bS69mLP3T@database:3306/budgeter_v2_database
+      - JWT_SECRET=674f702056de9c8f208538ad80e15c0fc5fc66e4a7c8a71292ffcccc9a494b6b
+      - REDIS_URL=redis://redis:6379
 
   client:
     build:
@@ -60,3 +73,4 @@ networks:
 
 volumes:
   app-volume:
+  redis-volume:

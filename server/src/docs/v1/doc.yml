@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: Mon API
+  version: 1.0.0
+  description: backend de l'application budgeter v2
+
+servers:
+  - url: http://localhost:3000/api/
+    description: Serveur de développement
+  - url: http://localhost:4080/api/
+    description: Serveur de production
+
+tags:
+  - name: auth
+    description: Opérations liées à l'authentification
+  - name: users
+    description: Opérations sur les utilisateurs
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Se connecter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              email: "test@gmail.com"
+              password: "123456"
+      responses:
+        '200':
+          description: Connexion réussie
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: token=abc123;
+              description: Cookie de session utilisé pour suivre l'authentification de l'utilisateur
+  /users/me:
+    get:
+      tags:
+        - users
+      summary: Récupérer les informations de l'utilisateur connecté
+      parameters:
+        - in: cookie
+          name: token
+          description: Cookie de token de l'utilisateur
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Non autorisé
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifiant de l'utilisateur
+        email:
+          type: string
+          description: Adresse email de l'utilisateur
+        username:
+          type: string
+          description: Nom d'utilisateur de l'utilisateur
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de création de l'utilisateur
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de dernière modification de l'utilisateur

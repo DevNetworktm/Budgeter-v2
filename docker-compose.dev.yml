@@ -11,3 +11,13 @@ services:
       MARIADB_DATABASE: budgeter_v2_database
     volumes:
       - ./data/db/:/var/lib/mysql
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:

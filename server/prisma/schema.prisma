@@ -17,15 +17,17 @@ model Users {
   email      String       @unique
   username   String       @unique
   password   String
+  admin      Boolean      @default(false)
   update_at  DateTime     @default(now())
   create_at  DateTime     @default(now())
 }
 
 model Accounts {
   id         String       @id @unique @default(uuid())
-  user       Users        @relation(references: [id], fields: [user_id])
+  User       Users        @relation(references: [id], fields: [user_id])
   CashFlow   CashFlow[]
   Categories Categories[]
+  label      String
   user_id    String
 }
 
@@ -42,14 +44,21 @@ model Categories {
 
 model CashFlow {
   id           String       @id @unique @default(uuid())
-  Categorie    Categories   @relation(references: [id], fields: [id])
+  Categorie    Categories   @relation(references: [id], fields: [categorie_id])
   Accounts     Accounts     @relation(references: [id], fields: [accounts_id])
   type         CashFlowType
   label        String
-  amount       BigInt
-  date         DateTime     @default(now())
+  amount       Int
+  date         DateTime
   categorie_id String
   accounts_id  String
+}
+
+model Settings {
+  id        Int     @id @unique @default(autoincrement())
+  currency  String
+  language  String
+  dark_mode Boolean
 }
 
 enum CashFlowType {

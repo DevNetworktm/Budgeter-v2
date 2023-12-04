@@ -4,23 +4,46 @@
   "main": "index.js",
   "author": "ZacharyMasson",
   "license": "MIT",
+  "private": false,
   "scripts": {
-    "start": "npm i -g npm@latest && npx prisma db push && node dist/main.js",
+    "dev": "nodemon --exec ts-node ./src/server.ts --watch ./src",
+    "start": "yarn push-db && node dist/server.js",
+    "tests": "jest --runInBand",
     "build": "tsc --project ./tsconfig.json",
-    "generate": "npx prisma generate",
-    "push-db": "npx prisma db push"
+    "push-db": "yarn prisma db push",
+    "seeds": "ts-node ./src/seeds/index.ts",
+    "reset:all": "yarn prisma migrate reset --force && yarn push-db && yarn seeds",
+    "reset:hard": "yarn prisma migrate reset --force && yarn push-db"
   },
   "dependencies": {
     "@prisma/client": "^5.6.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "redis": "^4.6.11",
+    "swagger-ui-express": "^5.0.0",
+    "yaml": "^2.3.4"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.6",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.10.0",
+    "@types/jest": "^29.5.10",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.10.1",
+    "@types/redis": "^4.0.11",
+    "@types/supertest": "^2.0.16",
+    "@types/swagger-ui-express": "^4.1.6",
+    "jest": "^29.7.0",
+    "node-notifier": "^10.0.1",
     "pm2": "^5.3.0",
     "prisma": "^5.6.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
   }
 }
